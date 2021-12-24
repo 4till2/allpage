@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body, input, textarea {
+    @apply bg-gray-50 !important
+}
+
+/*for iframely iframes*/
+iframe {
+    height: 200px;
+}
+
+/*Prevents background scrolling when modal is open*/
+.ReactModal__Body--open {
+    overflow: hidden;
+}
+
