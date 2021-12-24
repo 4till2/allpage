@@ -105,7 +105,7 @@ export default NextAuth({
   theme: {
     colorScheme: 'light',
     brandColor: "#FAFAF9",
-    logo: `${server}/images/allpage-logo.png`
+    logo: `${server}/images/brand-color.png`
   },
 
   // Enable debug messages in the console if you are having problems
