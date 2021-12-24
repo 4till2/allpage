@@ -17,7 +17,7 @@ export default function MenuBar() {
     return (
         <div>
             <div
-                className={`${isOpen ? 'shadow-lg backdrop-blur-lg z-10' : ''} fixed left-4 overflow-hidden bottom-8 text-center
+                className={`${isOpen ? 'shadow-lg backdrop-blur-xl z-10' : ''} rounded-t fixed left-4 overflow-hidden bottom-8 text-center
                 h-auto transition-all`}>
                 <div
                     className={`${isOpen ? "ml-0" : "-ml-32"}  rounded-lg rounded-b-none w-32 p-2 transition-all`}>

@@ -100,7 +100,7 @@ export default function EditProfile(props) {
     return (
         <Layout>
             <div className={"m-auto absolute top-0 w-full z-10 bg-gray-50"}>
-                <div className={"p-8 w-96 relative m-auto  rounded box-shadow-2xl"}>
+                <div className={"p-8 w-96 relative m-auto box-shadow-2xl"}>
                     {newUser &&
                     <div className={"p-4 mb-4  m-auto text-center"}>
                         <h1 className={"text-4xl font-bold"}>Welcome,</h1>
@@ -120,7 +120,7 @@ export default function EditProfile(props) {
                             validationSchema={usernameValidationSchema}
                         >
                             <Form>
-                                <label htmlFor="name" className={"font-extrabold "}>Full Name</label>
+                                <label htmlFor="name" className={"font-extrabold"}>Full Name</label>
                                 <Field id="name" name="name" placeholder="Full Name"
                                        className={"wpb-1 mb-2 pl-3 border-l border-gray-700 text-xl md:text-xl font-sans  w-full focus:outline-none overflow-visible"}/>
                                 <div>

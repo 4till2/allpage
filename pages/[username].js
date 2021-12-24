@@ -61,9 +61,8 @@ export default function User(props) {
     return (
         <Layout>
             <div className={"w-96 mx-auto"}>
-
-                <div className={"w-96 rounded mx-auto mt-8 p-8"}>
-                    <h1 className={"pb-2 text-3xl md:text-5xl font-sans font-extrabold"}>
+                <div className={"w-96 rounded mx-auto p-8"}>
+                    <h1 className={"pb-2 text-3xl md:text-6xl font-sans font-extrabold"}>
                         {props.name}
                     </h1>
                     <div className={'h-80 rounded-2xl '}>
