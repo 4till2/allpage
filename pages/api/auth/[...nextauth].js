@@ -5,9 +5,6 @@ import Twitter from "next-auth/providers/twitter";
 import Google from "next-auth/providers/google";
 import {PrismaAdapter} from "@next-auth/prisma-adapter"
 import {prisma} from "/db-client";
-import {retrieve} from "../../../helpers/file";
-import * as rug from 'random-username-generator'
-import {Router} from "next/router";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
