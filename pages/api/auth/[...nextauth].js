@@ -5,6 +5,7 @@ import Twitter from "next-auth/providers/twitter";
 import Google from "next-auth/providers/google";
 import {PrismaAdapter} from "@next-auth/prisma-adapter"
 import {prisma} from "/db-client";
+import {server} from "../../../config";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -102,7 +103,9 @@ export default NextAuth({
   // You can set the theme to 'light', 'dark' or use 'auto' to default to the
   // whatever prefers-color-scheme is set to in the browser. Default is 'auto'
   theme: {
-    colorScheme:'light',
+    colorScheme: 'light',
+    brandColor: "#FAFAF9",
+    logo: `${server}/images/allpage-logo.png`
   },
 
   // Enable debug messages in the console if you are having problems
