@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSession} from "next-auth/react";
 
 import Layout from '../components/layout'
@@ -41,7 +41,8 @@ export default function User(props) {
     const loading = status === 'loading'
     const isSelf = !loading && session && session.user.id == props.userId
     const [blocks, setBlocks] = useState([...props.blocks])
-
+    const [shrink, setShrink] = useState(false);
+    const [imageSize, setImageSize] = useState('20rem')
     const newBlock = (new_block) => {
         setBlocks([new_block, ...blocks])
     }
@@ -58,40 +59,59 @@ export default function User(props) {
             })
         })
     };
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            window.onscroll = () => {
+                const offset = window.pageYOffset
+                let size
+                if (offset <= 50) size = '20rem';
+                else if (offset <= 100) size = '15rem';
+                else size = '10rem';
+                setImageSize(size)
+            }
+        }
+    }, []);
     return (
         <Layout>
             <div className={"w-96 mx-auto"}>
-                <div className={"w-96 rounded mx-auto p-8"}>
-                    <h1 className={"pb-2 text-3xl md:text-6xl font-sans font-extrabold"}>
+                <div
+                    id={"header"}
+                    className={`${shrink ? "" : ""} transition-all ease-linear duration-200 w-96 flex flex-col rounded mx-auto p-8`}>
+                    <h1 className={`pb-2 text-5xl font-sans font-extrabold`}>
                         {props.name}
                     </h1>
-                    <div className={'h-80 rounded-2xl '}>
+                    <div
+                        style={{width: imageSize, height: imageSize}}
+                        className={`transition-all ease-linear duration-200 rounded-2xl`}>
                         <ProfileImage src={props.image} colors={props.colors} className={"rounded-2xl"}/>
                     </div>
-                    <h2 className={'pt-1 '}>@{props.username}</h2>
-                    <div className={"pt-8 text-left m-auto "}>{props.bio}</div>
-
+                    <h2 className={`pt-1`}>@{props.username}</h2>
+                    <div
+                        className={`pt-8 m-auto`}>{props.bio}</div>
                 </div>
-                <div className={"border-b w-full mb-4"}></div>
-                {isSelf &&
-                <div className={'mx-auto py-4'}>
-                    <Drop newBlock={newBlock}/>
-                </div>
-                }
-                <ul className={"w-80 mx-auto"}>
-                    {isSelf ?
-                        (<Sortable blocksState={blocks}
-                                   setBlocksState={setBlocks}
-                                   commitBlockPosition={commitBlockPosition}/>
-                        )
-                        : blocks.map(block => (
-                            <Block
-                                block={block}
-                                key={block.id}
-                                className={"w-full"}
-                            />))
+                <div>
+                    <div className={"border-b w-full mb-4"}></div>
+                    {isSelf &&
+                    <div className={'mx-auto py-4'}>
+                        <Drop newBlock={newBlock}/>
+                    </div>
                     }
-                </ul>
+                    <ul className={"w-80 mx-auto"}>
+                        {isSelf ?
+                            (<Sortable blocksState={blocks}
+                                       setBlocksState={setBlocks}
+                                       commitBlockPosition={commitBlockPosition}/>
+                            )
+                            : blocks.map(block => (
+                                <Block
+                                    block={block}
+                                    key={block.id}
+                                    className={"w-full"}
+                                />))
+                        }
+                    </ul>
+                </div>
             </div>
         </Layout>
     )

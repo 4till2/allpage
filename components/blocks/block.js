@@ -153,7 +153,7 @@ export default function Block(props) {
     return (
         <li className={`${props.className} inline-flex`} ref={props.innerRef}>
             {!isEditing &&
-            <div className={"inline-flex rounded-xl w-full hover:text-gray-50 backdrop-blur-md my-4 grow"}>
+            <div className={"inline-flex rounded-xl w-full hover:text-gray-50  my-4 grow"}>
                 <DefaultEmbed href={block.url.href} title={block.title}/>
             </div>
             }
