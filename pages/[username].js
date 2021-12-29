@@ -8,6 +8,17 @@ import Block from "../components/blocks/block";
 import ProfileImage from "../components/profile/profile-image";
 import fetcher from "../helpers/fetcher";
 import {server} from "../config";
+import ActionBar from "../components/action-bar";
+
+const penIcon = <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+    <path
+        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+</svg>;
+const bookIcon = <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+</svg>
 
 const hydrateBlock = async (block) => {
     return await fetch(`http://localhost:8061/iframely?url=${encodeURIComponent(block.url.url)}`).then(res => res.json());
@@ -40,6 +51,7 @@ export default function User(props) {
     const {data: session, status} = useSession()
     const loading = status === 'loading'
     const isSelf = !loading && session && session.user.id == props.userId
+    const [authorMode, setAuthorMode] = useState(false)
     const [blocks, setBlocks] = useState([...props.blocks])
     const [shrink, setShrink] = useState(false);
     const [imageSize, setImageSize] = useState('20rem')
@@ -92,13 +104,13 @@ export default function User(props) {
                 </div>
                 <div>
                     <div className={"border-b w-full mb-4"}></div>
-                    {isSelf &&
+                    {isSelf && authorMode &&
                     <div className={'mx-auto py-4'}>
                         <Drop newBlock={newBlock}/>
                     </div>
                     }
                     <ul className={"w-80 mx-auto"}>
-                        {isSelf ?
+                        {(isSelf && authorMode) ?
                             (<Sortable blocksState={blocks}
                                        setBlocksState={setBlocks}
                                        commitBlockPosition={commitBlockPosition}/>
@@ -108,11 +120,15 @@ export default function User(props) {
                                     block={block}
                                     key={block.id}
                                     className={"w-full"}
+                                    authorMode={authorMode}
                                 />))
                         }
                     </ul>
                 </div>
             </div>
+            {isSelf && <ActionBar
+                message={authorMode ? bookIcon : penIcon}
+                handleClick={() => setAuthorMode(!authorMode)}/>}
         </Layout>
     )
 }
