@@ -157,7 +157,7 @@ export default function Block(props) {
                 <DefaultEmbed href={block.url.href} title={block.title}/>
             </div>
             }
-            {session && session.user.profileId == block.profileId &&
+            {session && session.user.profileId == block.profileId && props.authorMode &&
             <EditBlock block={block} updateBlock={updateBlock} isEditing={isEditing}
                        setIsEditing={setIsEditing}/>
             }

@@ -59,6 +59,7 @@ export default function Sortable({blocksState, setBlocksState, commitBlockPositi
                                                         block={block}
                                                         key={block.id}
                                                         className={"w-full"}
+                                                        authorMode={true}
                                                     />
                                                 </div>
                                             </div>

@@ -27,7 +27,7 @@ export default function MenuBar() {
                     </div>
                 </div>
                 <div
-                    className={`${isOpen ? 'rounded-t-none' : ''} bg-gray-700 rounded-tl-none text-gray-50 rounded-lg p-2 shadow-4xl`}>
+                    className={`${isOpen ? 'rounded-t-none' : ''} bg-gray-700 rounded-tl-none text-gray-50 rounded-lg p-2 shadow-4xl `}>
                     <div className={"text-left cursor-pointer"} onClick={toggleSidebar}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24 "
                              stroke="currentColor">
