@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Router from 'next/router';
 import {Field, Form, Formik} from 'formik';
 import * as Yup from 'yup';
@@ -10,7 +10,9 @@ import generateColors from "../helpers/generateColor";
 import SaveOrCancelButtons from "../components/save-or-cancel-buttons";
 import fetcher from "../helpers/fetcher";
 import {server} from "../config";
-
+import {useCanvasImage} from "../hooks/use-canvas-image";
+import ImageCropper from "../components/image-cropper";
+import createFileFromBlob from "../helpers/create-file-from-blob";
 
 const usernameValidationSchema = Yup.object({
     username: Yup.string()
@@ -50,12 +52,13 @@ export async function getServerSideProps(context) {
     }
 }
 
-
 export default function EditProfile(props) {
     const {data: session, status} = useSession()
     const [image, setImage] = useState(props.image);
-    const [colors, setColors] = useState(props.colors || generateColors())
+    const [imageFile, setImageFile] = useState(null)
     const [imageKey, setImageKey] = useState(undefined)
+    const [cropImageModal, setCropImageModal] = useState(null)
+    const [colors, setColors] = useState(props.colors || generateColors())
     const newUser = !props.username;
 
     const handleUpdate = async (values) => {
@@ -77,12 +80,26 @@ export default function EditProfile(props) {
         return;
     }
 
-    const saveProfilePhoto = async (event) => {
-        const file = event.target.files[0];
+    const saveProfilePhoto = async (croppedImage) => {
+        setImage(croppedImage)
+        let file = await createFileFromBlob(croppedImage);
         const key = await store(file);
         setImageKey(key)
-        setImage(URL.createObjectURL(file))
     }
+    const cropProfilePhoto= async (event) => {
+        const file = event.target.files[0];
+        const image = URL.createObjectURL(file)
+        setImage(image)
+        setImageFile(file)
+        setCropImageModal(image)
+    }
+
+    const cancelImage = () => {
+        setImageFile(null);
+        setCropImageModal(null);
+        setImage(props.image)
+    }
+
 
     const deleteProfilePhoto = async (event) => {
         const confirm = window.confirm("Are you sure you want to delete your profile photo?");
@@ -97,6 +114,7 @@ export default function EditProfile(props) {
             return;
         }
     }
+
     return (
         <Layout>
             <div className={"m-auto absolute top-0 w-full z-10 bg-gray-50"}>
@@ -124,11 +142,13 @@ export default function EditProfile(props) {
                                 <Field id="name" name="name" placeholder="Full Name"
                                        className={"wpb-1 mb-2 pl-3 border-l border-gray-700 text-xl md:text-xl font-sans  w-full focus:outline-none overflow-visible"}/>
                                 <div>
+                                    {cropImageModal && <ImageCropper visible={cropImageModal} img={cropImageModal} onCrop={saveProfilePhoto} onClose={() => setCropImageModal(null)} onCancel={cancelImage}/>}
                                     <div
                                         style={(image) ?
                                             {backgroundImage: `url(${image})`} :
                                             {background: `linear-gradient(90deg, ${colors[0]} 0%, ${colors[1]} 100%)`}}
                                         className={`relative rounded-tl-none rounded-lg w-full h-80 mb-2 border shadow-md backdrop-blur-3x mt-2 bg-cover`}>
+
                                         {/*{image && <Image src={image} className={"p-2"}*/}
                                         {/*                 layout={"fill"} objectPosition={"center"}/>}*/}
                                         <label
@@ -139,7 +159,7 @@ export default function EditProfile(props) {
                                             <input id="file-upload"
                                                    name="file-upload"
                                                    type="file"
-                                                   onChange={saveProfilePhoto}
+                                                   onChange={cropProfilePhoto}
                                                    className="sr-only"/>
                                         </label>
                                         {!image &&
@@ -175,8 +195,7 @@ export default function EditProfile(props) {
                                 <label htmlFor="bio" className={"font-extrabold "}>Bio</label>
                                 <Field id="bio" name="bio" placeholder="Bio" as={"textarea"} rows={"8"}
                                        className={"resize-none mb-2 pl-3 border-r-0 border-y-0 border-gray-700 focus:ring-0 focus:border-gray-700  font-sans  w-full focus:outline-none overflow-visible"}/>
-                                <SaveOrCancelButtons onCancel={!newUser ? handleCancel : null} onSave={() => {
-                                }}/>
+                                <SaveOrCancelButtons onCancel={!newUser ? handleCancel : null} onSave={() => {}}/>
                             </Form>
                         </Formik>
                     </div>

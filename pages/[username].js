@@ -9,6 +9,7 @@ import ProfileImage from "../components/profile/profile-image";
 import fetcher from "../helpers/fetcher";
 import {server} from "../config";
 import ActionBar from "../components/action-bar";
+import {useCanvasImage} from "../hooks/use-canvas-image";
 
 const penIcon = <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
     <path
@@ -50,6 +51,7 @@ export async function getServerSideProps({params}) {
 export default function User(props) {
     const {data: session, status} = useSession()
     const loading = status === 'loading'
+    const [image, setImage] = useState(props.image)
     const isSelf = !loading && session && session.user.id == props.userId
     const [authorMode, setAuthorMode] = useState(false)
     const [blocks, setBlocks] = useState([...props.blocks])
@@ -72,18 +74,18 @@ export default function User(props) {
         })
     };
 
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            window.onscroll = () => {
-                const offset = window.pageYOffset
-                let size
-                if (offset <= 50) size = '20rem';
-                else if (offset <= 100) size = '15rem';
-                else size = '10rem';
-                setImageSize(size)
-            }
-        }
-    }, []);
+    // useEffect(async () => {
+    //     if (typeof window !== "undefined") {
+    //         window.onscroll = () => {
+    //             const offset = window.pageYOffset
+    //             let size
+    //             if (offset <= 50) size = '20rem';
+    //             else if (offset <= 100) size = '15rem';
+    //             else size = '10rem';
+    //             setImageSize(size)
+    //         }
+    //     }
+    // }, []);
     return (
         <Layout>
             <div className={"w-96 mx-auto"}>

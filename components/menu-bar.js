@@ -59,6 +59,10 @@ const LoggedIn = ({session}) => {
                     className={"hover:text-black hover:underline  font-bold"}>Edit
                     Profile</a></Link>
             </div>
+            <div className={"my-3"}>
+                <Link href={"/discover"}>
+                    <a className={"hover:text-black hover:underline  font-bold"}>Discover</a></Link>
+            </div>
             <a
                 href={`/api/auth/signout`}
                 className={"hover:text-black text-xs text-gray-500"}
@@ -74,6 +78,10 @@ const LoggedOut = ({session}) => {
     if (!!session) return <></>
     return (
         <>
+            <div className={"my-3"}>
+                <Link href={"/discover"}>
+                    <a className={"hover:text-black hover:underline  font-bold"}>Discover</a></Link>
+            </div>
             <a
                 href={`/api/auth/signin`}
                 className={"hover:text-black  hover:underline  font-bold"}
