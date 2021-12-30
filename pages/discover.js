@@ -13,7 +13,7 @@ export async function getServerSideProps({params}) {
         profiles[i].image = profiles[i].image ? await retrieve(profiles[i].image) : ''
     }
     return {
-        props: {profiles: profiles}
+        props: {profiles: profiles.reverse()}
     }
 }
 
