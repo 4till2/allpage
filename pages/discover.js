@@ -10,7 +10,7 @@ import {signIn} from "next-auth/react";
 export async function getServerSideProps({params}) {
     const profiles = await fetcher(`${server}/api/profile/getMany`)
     for (let i = 0; i < profiles.length; i++) {
-        profiles[i].image = await retrieve(profiles[i].image)
+        profiles[i].image = profiles[i].image ? await retrieve(profiles[i].image) : ''
     }
     return {
         props: {profiles: profiles}
