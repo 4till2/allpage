@@ -37,7 +37,7 @@ export default async (req, res) => {
             }
         })
     }
-    if (profile && profile.image) profile.image = await retrieve(profile.image)
+//     if (profile && profile.image) profile.image = await retrieve(profile.image)
 
     !profile ? res.status(404).send({error: 'user not found'}) : res.status(200).send({...profile})
 }
