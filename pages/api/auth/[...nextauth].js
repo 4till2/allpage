@@ -13,18 +13,18 @@ export default NextAuth({
   // https://next-auth.js.org/configuration/providers
   adapter: PrismaAdapter(prisma),
   providers: [
-    Email({
-      server: process.env.EMAIL_SERVER,
-      from: process.env.EMAIL_FROM,
-    }),
+//     Email({
+//       server: process.env.EMAIL_SERVER,
+//       from: process.env.EMAIL_FROM,
+//     }),
     // Facebook({
     //   clientId: process.env.FACEBOOK_ID,
     //   clientSecret: process.env.FACEBOOK_SECRET,
     // }),
-    // Google({
-    //   clientId: process.env.GOOGLE_ID,
-    //   clientSecret: process.env.GOOGLE_SECRET,
-    // }),
+    Google({
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+    }),
     // Twitter({
     //   clientId: process.env.TWITTER_ID,
     //   clientSecret: process.env.TWITTER_SECRET,
